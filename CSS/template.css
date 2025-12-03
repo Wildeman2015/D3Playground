@@ -2,7 +2,104 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1 {
-    color: blue;
-    background-color: black;
+p {
+    margin: 10px;
+    font-size: small;
+}
+
+svg {
+    border: 1px solid blue;
+}
+
+.test_section {
+    display: inline-flex;
+    align-items: center;
+}
+
+.regular_button {
+    height: 25px;
+    margin: 10px;
+    aspect-ratio: 6/1;
+}
+
+#mainScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 80vh;
+    width: 100vw;
+    flex-wrap: wrap;
+    border: 1px solid grey;
+}
+
+#shipCards {
+    border: 1px dotted darkgreen;
+    flex: 2;
+    transition: all 400ms ease;
+}
+
+
+#shipCards.collapsed {
+    flex: 0; /* Shrinks to zero height */
+    overflow: hidden; /* Hide content */
+    transition: flex 400ms ease;
+}
+
+
+#D3andME {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: end;
+    border: 2px solid red;
+    width: 95%;
+    flex: 3;
+}
+
+.kpiBucket {
+    justify-self: center;
+    border: 3px dashed grey;
+    border-radius: 50%;
+    height: 150px;
+    aspect-ratio: 1/1;
+    overflow: visible;
+    margin: 10px;
+    position: relative;
+    transition: all 1000ms ease;
+}
+
+
+.kpiBucket.focused {
+    transform: scale (3);
+    aspect-ratio: 1 / 1;
+    z-index: 10;
+}
+
+
+.kpiBucket.shrunk {
+    transform: scale(0.5);
+    opacity: 0.7;
+}
+
+#roundChartContainer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:0;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+}
+
+
+#comboChartContainer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width:0;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
 }

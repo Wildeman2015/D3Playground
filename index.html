@@ -6,15 +6,30 @@
         <title>D3.js Visualization</title>
         <link rel="stylesheet" href="./CSS/template.css">
         <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Link to D3.js library -->
-        <style>
-            /* Add any CSS for your visualization here */
-            body { margin: 0; overflow: hidden; }
-            .chart { background-color: lightgray; }
-        </style>
+        <script src="./JS/focus.js" defer></script>
+        <script src="./JS/fetch.js" defer></script>
+        <!--
+        
+        -->
     </head>
     <body>
-        <h1>Well?</h1>
-        <div id="chart-container"></div>
-        <script src="./JS/template.js"></script> <!-- Link to your D3.js code -->
+           <div class='test_section' id="timer">   
+           <button class='regular_button' id="clock_start">Start Ze Clock</button>
+           <p id='clock_count'>Counter is set to 0</p>
+
+        </div>
+        <div class='test_section' id="boolean_switch">   
+           <button class='regular_button' id="ze_switch">Switch Me</button>
+           <p id='switch_label'>I am off</p>
+
+        </div>
+        <div id="mainScreen">
+            <div id="shipCards"><p>someday, this space will be populated</p></div>
+        <div id="D3andME">
+            
+            <div class="kpiBucket" id="roundChartContainer"></div>
+            <div class="kpiBucket" id="comboChartContainer"></div>
+        </div>
+        </div>
     </body>
     </html>
