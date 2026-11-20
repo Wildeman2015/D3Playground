@@ -34,12 +34,12 @@
     // -------------------------------------------------------------------------
     const SETTINGS = {
         emissionRate: 30,       // Average new particles created per second.
-        lifetimeMin: 3.5,       // Shortest particle lifetime, in seconds.
-        lifetimeMax: 7.5,       // Longest particle lifetime, in seconds.
-        emissionZone: 0.22,     // Fraction of the bar's height that emits particles (top 22%).
-        emissionBias: 1.8,      // Higher values concentrate more particles near the very top.
+        lifetimeMin: 2.1,       // Shortest particle lifetime, in seconds.
+        lifetimeMax: 6.5,       // Longest particle lifetime, in seconds.
+        emissionZone: 0.32,     // Fraction of the bar's height that emits particles (top 22%).
+        emissionBias: 2.8,      // Higher values concentrate more particles near the very top.
         launchAngleBase: -0.28, // Initial angle in radians. Negative angles travel upward.
-        launchAngleTaper: 0.48, // Adds downward angle for particles emitted lower in the zone.
+        launchAngleTaper: -0.10, // Adds downward angle for particles emitted lower in the zone.
         launchAngleVariation: 0.16, // Random angle variation, in radians.
         speedMin: 18,           // Minimum initial particle speed, in CSS pixels per second.
         speedVariation: 17,     // Additional random speed above speedMin.
