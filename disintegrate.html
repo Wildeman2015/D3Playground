@@ -20,14 +20,27 @@
         }
 
         main {
+            position: relative;
             display: grid;
             width: 100%;
             min-height: 100vh;
             min-height: 100dvh;
             place-items: center;
+            isolation: isolate;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .gold-bar {
+            position: relative;
+            z-index: 2;
             width: 10px;
             height: 50vh;
             height: 50dvh;
@@ -37,7 +50,138 @@
 </head>
 <body>
     <main aria-label="Disintegrate visual experiment">
+        <canvas id="particles" aria-hidden="true"></canvas>
         <div class="gold-bar" aria-hidden="true"></div>
     </main>
+
+    <script>
+        (() => {
+            const canvas = document.getElementById("particles");
+            const ctx = canvas.getContext("2d");
+            const bar = document.querySelector(".gold-bar");
+
+            let width = 0;
+            let height = 0;
+            let dpr = 1;
+            let particles = [];
+            let lastTime = 0;
+            let emissionCarry = 0;
+
+            const settings = {
+                emissionRate: 30,
+                breeze: 24,
+                spread: 13,
+                lifetimeMin: 3.5,
+                lifetimeMax: 7.5
+            };
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = Math.round(width * dpr);
+                canvas.height = Math.round(height * dpr);
+                canvas.style.width = width + "px";
+                canvas.style.height = height + "px";
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function emissionPoint() {
+                const rect = bar.getBoundingClientRect();
+                return {
+                    x: rect.right + (Math.random() - 0.5) * 2,
+                    y: rect.top + Math.random() * rect.height * 0.22
+                };
+            }
+
+            function createParticle() {
+                const origin = emissionPoint();
+                const life = settings.lifetimeMin +
+                    Math.random() * (settings.lifetimeMax - settings.lifetimeMin);
+
+                particles.push({
+                    x: origin.x,
+                    y: origin.y,
+                    vx: 8 + Math.random() * 19,
+                    vy: (Math.random() - 0.5) * 8,
+                    size: 0.7 + Math.pow(Math.random(), 2) * 2.7,
+                    life,
+                    age: 0,
+                    phase: Math.random() * Math.PI * 2,
+                    drift: 2 + Math.random() * 8,
+                    warmth: Math.random()
+                });
+            }
+
+            function drawParticle(p, dt, now) {
+                const progress = p.age / p.life;
+                const fadeIn = Math.min(progress * 7, 1);
+                const fadeOut = Math.min((1 - progress) * 2.2, 1);
+                const alpha = fadeIn * fadeOut * (0.18 + p.warmth * 0.28);
+
+                // A slow, irregular eddy keeps the drift from looking mechanical.
+                const turbulence = Math.sin(now * 0.00055 + p.phase + p.x * 0.006);
+                p.vy += turbulence * p.drift * dt * 0.12;
+                p.vy *= 0.995;
+                p.x += p.vx * dt;
+                p.y += (p.vy + Math.sin(now * 0.0008 + p.phase) * 2.2) * dt;
+                p.age += dt;
+
+                if (alpha <= 0) return;
+
+                const radius = p.size * (0.8 + progress * 1.1);
+                const glow = ctx.createRadialGradient(
+                    p.x, p.y, 0,
+                    p.x, p.y, radius * 3.5
+                );
+
+                glow.addColorStop(0, `rgba(244, 207, 112, ${alpha})`);
+                glow.addColorStop(0.35, `rgba(212, 175, 55, ${alpha * 0.55})`);
+                glow.addColorStop(1, "rgba(212, 175, 55, 0)");
+
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, radius * 3.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Occasional brighter grains give the cloud a pollen-like texture.
+                if (p.size > 2.2) {
+                    ctx.fillStyle = `rgba(255, 225, 151, ${alpha * 0.65})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 0.65, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function animate(timestamp) {
+                if (!lastTime) lastTime = timestamp;
+                const dt = Math.min((timestamp - lastTime) / 1000, 0.04);
+                lastTime = timestamp;
+
+                ctx.clearRect(0, 0, width, height);
+
+                emissionCarry += settings.emissionRate * dt;
+                while (emissionCarry >= 1) {
+                    createParticle();
+                    emissionCarry -= 1;
+                }
+
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    const p = particles[i];
+                    drawParticle(p, dt, timestamp);
+                    if (p.age >= p.life || p.x > width + 30 ||
+                        p.y < -30 || p.y > height + 30) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener("resize", resize);
+            resize();
+            requestAnimationFrame(animate);
+        })();
+    </script>
 </body>
 </html>
