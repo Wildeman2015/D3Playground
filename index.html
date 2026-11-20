@@ -1,35 +1,43 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>D3.js Visualization</title>
-        <link rel="stylesheet" href="./CSS/template.css">
-        <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Link to D3.js library -->
-        <script src="./JS/focus.js" defer></script>
-        <script src="./JS/fetch.js" defer></script>
-        <!--
-        
-        -->
-    </head>
-    <body>
-           <div class='test_section' id="timer">   
-           <button class='regular_button' id="clock_start">Start Ze Clock</button>
-           <p id='clock_count'>Counter is set to 0</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <title>Disintegrate</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-        </div>
-        <div class='test_section' id="boolean_switch">   
-           <button class='regular_button' id="ze_switch">Switch Me</button>
-           <p id='switch_label'>I am off</p>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
 
-        </div>
-        <div id="mainScreen">
-            <div id="shipCards"><p>someday, this space will be populated</p></div>
-        <div id="D3andME">
-            
-            <div class="kpiBucket" id="roundChartContainer"></div>
-            <div class="kpiBucket" id="comboChartContainer"></div>
-        </div>
-        </div>
-    </body>
-    </html>
+        main {
+            display: grid;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            place-items: center;
+        }
+
+        .gold-bar {
+            width: 20px;
+            height: 50vh;
+            height: 50dvh;
+            background: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <main aria-label="Disintegrate visual experiment">
+        <div class="gold-bar" aria-hidden="true"></div>
+    </main>
+</body>
+</html>
